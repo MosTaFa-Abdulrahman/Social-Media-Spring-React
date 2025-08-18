@@ -1,0 +1,315 @@
+@import "../../style.scss";
+
+.navbar {
+  @include themify($themes) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    height: 50px;
+    border-bottom: 1px solid themed("border");
+    position: sticky;
+    top: 0;
+    background-color: themed("bg");
+    color: themed("textColor");
+    z-index: 999;
+
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+
+      span {
+        font-weight: bold;
+        font-size: 20px;
+        color: themed("logo");
+      }
+
+      svg {
+        cursor: pointer;
+        color: themed("textColor");
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: themed("logo");
+        }
+      }
+
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid themed("border");
+        border-radius: 5px;
+        padding: 5px;
+
+        input {
+          border: none;
+          width: 500px;
+          background-color: transparent;
+          color: themed("textColor");
+
+          @include mobile {
+            display: none;
+          }
+
+          @include tablet {
+            width: 200px;
+          }
+
+          &::placeholder {
+            color: themed("textColorSoft");
+          }
+
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      @include mobile {
+        display: none;
+      }
+
+      svg {
+        cursor: pointer;
+        color: themed("textColor");
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: themed("logo");
+        }
+      }
+
+      .notification-bell {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: themed("textColor");
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: themed("logo");
+        }
+
+        svg {
+          cursor: pointer;
+          color: inherit;
+          transition: color 0.2s ease;
+        }
+
+        .notification-badge {
+          position: absolute;
+          top: -8px;
+          right: -8px;
+          background-color: #ff4757;
+          color: white;
+          border-radius: 50%;
+          min-width: 18px;
+          height: 18px;
+          font-size: 11px;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 2px;
+          box-shadow: 0 2px 4px rgba(255, 71, 87, 0.3);
+          border: 2px solid themed("bg");
+
+          // For numbers with 3+ digits, make it more oval
+          &:has-text {
+            border-radius: 9px;
+            min-width: 20px;
+            padding: 0 4px;
+          }
+
+          // Animation for new notifications
+          animation: badgePulse 0.6s ease-in-out;
+        }
+      }
+
+      .user {
+        position: relative;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+
+        @include tablet {
+          display: none;
+        }
+
+        .user-info {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          cursor: pointer;
+          padding: 5px 8px;
+          border-radius: 20px;
+          transition: background-color 0.2s ease;
+
+          &:hover {
+            background-color: themed("bgSoft");
+          }
+
+          img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid themed("border");
+          }
+
+          .dropdown-arrow {
+            transition: transform 0.2s ease;
+            color: themed("textColorSoft");
+
+            &.rotated {
+              transform: rotate(180deg);
+            }
+          }
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: calc(100% + 10px);
+          right: 0;
+          background-color: themed("bg");
+          border: 1px solid themed("border");
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          min-width: 180px;
+          z-index: 1000;
+          overflow: hidden;
+          animation: dropdownFadeIn 0.2s ease;
+
+          .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: themed("textColor");
+            text-decoration: none;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+              background-color: themed("bgSoft");
+            }
+
+            svg {
+              color: themed("textColorSoft");
+            }
+
+            &.logout-btn {
+              color: #ff4757;
+
+              svg {
+                color: #ff4757;
+              }
+
+              &:hover {
+                background-color: rgba(255, 71, 87, 0.1);
+              }
+            }
+          }
+
+          .dropdown-divider {
+            height: 1px;
+            background-color: themed("border");
+            margin: 4px 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Badge animation
+@keyframes badgePulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Dropdown animation
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Mobile responsive adjustments
+@include mobile {
+  .navbar {
+    .left {
+      gap: 15px;
+
+      span {
+        font-size: 18px;
+      }
+    }
+
+    .right {
+      gap: 15px;
+
+      .notification-bell {
+        .notification-badge {
+          top: -6px;
+          right: -6px;
+          min-width: 16px;
+          height: 16px;
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}
+
+// Tablet responsive adjustments
+@include tablet {
+  .navbar {
+    .left {
+      gap: 20px;
+    }
+
+    .right {
+      gap: 15px;
+
+      .notification-bell {
+        .notification-badge {
+          top: -7px;
+          right: -7px;
+          min-width: 17px;
+          height: 17px;
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}

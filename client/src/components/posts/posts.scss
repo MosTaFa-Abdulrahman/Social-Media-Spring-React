@@ -1,0 +1,87 @@
+@import "../../style.scss";
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  // padding: 20px;
+  // max-width: 600px;
+  // margin: 0 auto;
+
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 12px;
+
+    @include themify($themes) {
+      background-color: themed("bgSoft");
+      border: 1px solid themed("border");
+    }
+
+    p {
+      margin: 0;
+      font-size: 16px;
+
+      @include themify($themes) {
+        color: themed("textColorSoft");
+      }
+    }
+  }
+
+  &__loading-more {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  &__end {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px 20px;
+    text-align: center;
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.7;
+
+      @include themify($themes) {
+        color: themed("textColorSoft");
+      }
+    }
+  }
+
+  @include mobile {
+    padding: 15px;
+    gap: 15px;
+
+    &__empty {
+      padding: 40px 15px;
+
+      p {
+        font-size: 14px;
+      }
+    }
+
+    &__loading-more {
+      padding: 15px;
+    }
+
+    &__end {
+      padding: 30px 15px 15px;
+
+      p {
+        font-size: 13px;
+      }
+    }
+  }
+
+  @include tablet {
+    padding: 18px;
+    max-width: 100%;
+  }
+}

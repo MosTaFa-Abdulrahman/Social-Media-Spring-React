@@ -1,0 +1,510 @@
+@import "../../style.scss";
+
+.notifications-container {
+  margin: 0 auto;
+  padding: 20px;
+
+  @include mobile {
+    padding: 15px;
+  }
+  @include themify($themes) {
+    background-color: themed("bg");
+  }
+
+  .notifications-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid;
+
+    @include themify($themes) {
+      border-color: themed("border");
+      color: themed("textColor");
+    }
+
+    @include mobile {
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      h2 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+
+        @include themify($themes) {
+          // color: themed("textColor");
+        }
+
+        @include mobile {
+          font-size: 1.5rem;
+        }
+
+        .unread-badge {
+          background: #ff4757;
+          color: white;
+          font-size: 0.75rem;
+          font-weight: bold;
+          padding: 4px 8px;
+          border-radius: 12px;
+          min-width: 20px;
+          text-align: center;
+          animation: pulse 2s infinite;
+        }
+      }
+
+      .connection-status {
+        .connection-indicator {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 0.85rem;
+          padding: 4px 10px;
+          border-radius: 20px;
+
+          @include themify($themes) {
+            background-color: themed("bg");
+            color: themed("textColorSoft");
+          }
+
+          .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+          }
+
+          &.connected .status-dot {
+            background: #2ed573;
+          }
+
+          &.disconnected .status-dot {
+            background: #ff6b6b;
+          }
+        }
+      }
+    }
+
+    .mark-all-read-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      @include themify($themes) {
+        // background-color: themed("bg");
+        // color: themed("textColor");
+        background: themed("logo");
+        color: white;
+      }
+
+      &:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .spinning {
+        animation: spin 1s linear infinite;
+      }
+
+      @include mobile {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  .notifications-loading,
+  .notifications-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+
+    @include themify($themes) {
+      color: themed("textColorSoft");
+    }
+
+    .spinning {
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    .retry-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+
+      @include themify($themes) {
+        background: themed("logo");
+        color: white;
+      }
+    }
+  }
+
+  .notifications-list {
+    .no-notifications {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 20px;
+      text-align: center;
+
+      @include themify($themes) {
+        color: themed("textColorSoft");
+      }
+
+      svg {
+        margin-bottom: 20px;
+        opacity: 0.5;
+      }
+
+      h3 {
+        margin: 0 0 10px 0;
+        font-size: 1.3rem;
+      }
+
+      p {
+        margin: 0;
+        font-size: 0.95rem;
+        opacity: 0.8;
+      }
+    }
+
+    .notification-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 18px;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      border: 1px solid;
+      transition: all 0.2s ease;
+      position: relative;
+
+      @include themify($themes) {
+        background: themed("bg");
+        border-color: themed("border");
+      }
+
+      &.unread {
+        @include themify($themes) {
+          background: themed("bg");
+          border-color: themed("border");
+        }
+      }
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+        .notification-actions {
+          opacity: 1;
+        }
+      }
+
+      .notification-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        flex: 1;
+        cursor: pointer;
+
+        .notification-icon-wrapper {
+          position: relative;
+          padding: 8px;
+          border-radius: 8px;
+
+          @include themify($themes) {
+            background: themed("bgSoft");
+          }
+
+          .notification-icon {
+            &.like-icon {
+              color: #ff6b6b;
+            }
+
+            &.comment-icon {
+              color: #4ecdc4;
+            }
+
+            &.follow-icon {
+              color: #45b7d1;
+            }
+
+            &.default-icon {
+              @include themify($themes) {
+                color: themed("textColorSoft");
+              }
+            }
+          }
+
+          .unread-indicator {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 8px;
+            height: 8px;
+            background: #ff4757;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+          }
+        }
+
+        .notification-details {
+          flex: 1;
+
+          .notification-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+
+            .sender-avatar {
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+
+            .sender-name {
+              font-weight: 600;
+              font-size: 0.9rem;
+
+              @include themify($themes) {
+                color: themed("textColor");
+              }
+            }
+          }
+
+          .notification-message {
+            margin: 5px 0 8px 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+
+            @include themify($themes) {
+              color: themed("textColor");
+            }
+          }
+
+          .notification-time {
+            font-size: 0.8rem;
+
+            @include themify($themes) {
+              color: themed("textColorSoft");
+            }
+          }
+        }
+      }
+
+      .notification-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+
+        @include mobile {
+          opacity: 1;
+        }
+
+        .mark-read-btn,
+        .delete-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          @include themify($themes) {
+            background: themed("bgSoft");
+            color: themed("textColorSoft");
+          }
+
+          &:hover:not(:disabled) {
+            transform: scale(1.1);
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+
+          .spinning {
+            animation: spin 1s linear infinite;
+          }
+        }
+
+        .mark-read-btn {
+          &:hover:not(:disabled) {
+            background: #2ed573;
+            color: white;
+          }
+        }
+
+        .delete-btn {
+          &:hover:not(:disabled) {
+            background: #ff6b6b;
+            color: white;
+          }
+        }
+      }
+
+      @include mobile {
+        padding: 15px;
+
+        .notification-content {
+          gap: 12px;
+        }
+
+        .notification-details {
+          .notification-header {
+            .sender-avatar {
+              width: 28px;
+              height: 28px;
+            }
+          }
+        }
+      }
+    }
+
+    .load-more-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+      padding: 20px;
+
+      .load-more-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 24px;
+        border: 2px solid;
+        border-radius: 25px;
+        background: transparent;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+
+        @include themify($themes) {
+          border-color: themed("border");
+          color: themed("textColor");
+        }
+
+        &:hover:not(:disabled) {
+          @include themify($themes) {
+            background: themed("logo");
+            border-color: themed("logo");
+            color: white;
+          }
+
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .spinning {
+          animation: spin 1s linear infinite;
+        }
+
+        @include mobile {
+          padding: 10px 20px;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Toast customization
+.Toastify__toast {
+  border-radius: 12px;
+
+  &.Toastify__toast--success {
+    background: linear-gradient(135deg, #2ed573, #1dd1a1);
+  }
+
+  &.Toastify__toast--error {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  }
+}
+
+// Responsive improvements
+@include tablet {
+  .notifications-container {
+    .notifications-header {
+      .header-left h2 {
+        font-size: 1.6rem;
+      }
+    }
+
+    .notification-item {
+      .notification-content {
+        .notification-details {
+          .notification-message {
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+  }
+}

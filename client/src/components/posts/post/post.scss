@@ -1,0 +1,166 @@
+@import "../../../style.scss";
+
+.post {
+  @include themify($themes) {
+    -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+    -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+    box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+    border-radius: 20px;
+    background-color: themed("bg");
+    color: themed("textColor");
+
+    .container {
+      padding: 20px;
+
+      .user {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .userInfo {
+          display: flex;
+          gap: 20px;
+
+          img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          .details {
+            display: flex;
+            flex-direction: column;
+
+            .name {
+              font-weight: 500;
+            }
+
+            .date {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+
+      .content {
+        margin: 20px 0px;
+
+        img {
+          width: 100%;
+          max-height: 500px;
+          object-fit: cover;
+          margin-top: 20px;
+        }
+      }
+
+      .info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        .item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+          padding: 8px 12px;
+          border-radius: 8px;
+          transition: all 0.2s ease;
+          user-select: none;
+
+          @include themify($themes) {
+            color: themed("textColorSoft");
+          }
+
+          &:hover {
+            @include themify($themes) {
+              background-color: themed("bgSoft");
+              color: themed("textColor");
+            }
+          }
+
+          // Like item specific styles
+          &.like-item {
+            position: relative;
+
+            &.liked {
+              .heart-icon {
+                color: #ef4444 !important; // Red heart when liked
+                fill: #ef4444 !important;
+                stroke: #ef4444 !important;
+                animation: heartPulse 0.4s ease;
+              }
+
+              .like-count {
+                @include themify($themes) {
+                  color: themed("textColor");
+                }
+                font-weight: 600;
+              }
+            }
+
+            &:hover {
+              .heart-icon {
+                transform: scale(1.1);
+                @include themify($themes) {
+                  color: #ef4444;
+                }
+              }
+            }
+
+            &:active {
+              .heart-icon {
+                transform: scale(0.95);
+              }
+            }
+          }
+
+          .heart-icon {
+            transition: all 0.2s ease;
+            stroke-width: 2;
+
+            &.heart-filled {
+              fill: #ef4444 !important;
+              stroke: #ef4444 !important;
+              color: #ef4444 !important;
+            }
+          }
+
+          .like-loader {
+            animation: spin 1s linear infinite;
+            color: #ef4444;
+          }
+
+          .like-count {
+            font-size: 14px;
+            font-weight: 400;
+            transition: all 0.2s ease;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Keyframe animations
+@keyframes heartPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
