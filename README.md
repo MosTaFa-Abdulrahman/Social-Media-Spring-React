@@ -1,3 +1,8 @@
+
+
+https://github.com/user-attachments/assets/5392dbf7-6458-45d2-8cec-549fd1efccd5
+
+
 # 📱 Social Media Platform  
 
 > A **full-featured Social Media platform** built with **Spring Boot + React.js** 🌐🚀  
